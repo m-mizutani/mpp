@@ -1,7 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"github.com/kr/pretty"
+	"github.com/ugorji/go/codec"
+	"io"
+	"os"
+)
 
 func main() {
-	fmt.Println("hey!");
+	mh := &codec.MsgpackHandle{RawToString: true}
+	dec := codec.NewDecoder(os.Stdin, mh)
+	var msg interface{}
+
+	for {
+		err := dec.Decode(&msg)
+		if err == nil {
+			pretty.Println(msg)
+		} else if err == io.EOF {
+			break
+		} else {
+			panic(err)
+		}
+	}
 }
