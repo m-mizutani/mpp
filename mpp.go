@@ -10,9 +10,9 @@ import (
 func main() {
 	mh := &codec.MsgpackHandle{RawToString: true}
 	dec := codec.NewDecoder(os.Stdin, mh)
-	var msg interface{}
 
 	for {
+		var msg interface{}
 		err := dec.Decode(&msg)
 		if err == nil {
 			pretty.Println(msg)
